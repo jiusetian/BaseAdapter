@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BaseAdapter</string>
+
+    <string name="unknown_msg">当前版本暂不支持该消息类型</string>
+</resources>
