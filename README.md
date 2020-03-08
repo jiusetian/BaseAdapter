@@ -19,6 +19,6 @@ maven { url 'https://jitpack.io' }
 
 dependencies {
 
-implementation 'com.github.jiusetian:BaseAdapter:版本号'
+implementation 'com.github.jiusetian:BaseAdapter:visonCode'
 
 }
