@@ -1,4 +1,4 @@
-package com.lib_baseadapter;
+package com.adapter;
 
 import org.junit.Test;
 

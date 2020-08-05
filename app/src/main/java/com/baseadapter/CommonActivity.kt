@@ -8,7 +8,7 @@ import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import com.lib_baseadapter.rvkt.CommonAdapter
+import com.adapter.rvkt.CommonAdapter
 import com.library.baseadapter.rvkt.base.ViewHolder
 import com.library.baseadapter.rvkt.wrapper.HeaderAndFooterWrapper
 import com.library.baseadapter.rvkt.wrapper.LoadMoreWrapper

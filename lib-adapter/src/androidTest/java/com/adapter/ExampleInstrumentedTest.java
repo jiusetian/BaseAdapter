@@ -1,4 +1,4 @@
-package com.lib_baseadapter;
+package com.adapter;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

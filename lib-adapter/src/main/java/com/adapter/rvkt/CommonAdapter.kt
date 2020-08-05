@@ -1,4 +1,4 @@
-package com.lib_baseadapter.rvkt
+package com.adapter.rvkt
 
 import android.content.Context
 import android.view.LayoutInflater

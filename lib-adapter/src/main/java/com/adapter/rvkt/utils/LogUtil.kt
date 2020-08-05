@@ -1,4 +1,4 @@
-package com.lib_baseadapter.rvkt.utils
+package com.adapter.rvkt.utils
 
 import android.util.Log
 

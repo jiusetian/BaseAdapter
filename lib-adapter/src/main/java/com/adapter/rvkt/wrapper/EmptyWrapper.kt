@@ -1,4 +1,4 @@
-package com.lib_baseadapter.rvkt.wrapper
+package com.adapter.rvkt.wrapper
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

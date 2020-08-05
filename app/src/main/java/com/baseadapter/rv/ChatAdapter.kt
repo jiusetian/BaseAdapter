@@ -2,7 +2,7 @@ package com.baseadapter.rv
 
 import android.content.Context
 import com.baseadapter.bean.ChatMessage
-import com.lib_baseadapter.rvkt.MultiItemTypeAdapter
+import com.adapter.rvkt.MultiItemTypeAdapter
 
 /**
  * Author：Alex
