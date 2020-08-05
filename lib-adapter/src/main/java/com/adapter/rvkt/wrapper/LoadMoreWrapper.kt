@@ -1,7 +1,9 @@
 package com.library.baseadapter.rvkt.wrapper
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.library.baseadapter.rvkt.base.ViewHolder
@@ -19,7 +21,7 @@ class LoadMoreWrapper(val innerAdapter: RecyclerView.Adapter<ViewHolder>) : Recy
     }
 
     private var loadMoreView: View? = null
-    private var loadMoreViewId = 0
+    private var enableLoadmore = true // 是否可加载更多
     private lateinit var loadMoreListener: () -> Unit
 
     /**
@@ -30,20 +32,34 @@ class LoadMoreWrapper(val innerAdapter: RecyclerView.Adapter<ViewHolder>) : Recy
         return this
     }
 
+    fun setLoadmoreViewVisiable(visible: Int) {
+        loadMoreView?.visibility = visible
+    }
+
+    fun setEnableLoadmore(enable: Boolean) {
+        enableLoadmore = enable
+    }
 
     fun setLoadMoreView(loadMoreView: View): LoadMoreWrapper {
         this.loadMoreView = loadMoreView
+        setLoadmoreViewVisiable(View.INVISIBLE)
         return this
     }
 
-    fun setLoadMoreViewId(loadMoreViewId: Int): LoadMoreWrapper {
-        this.loadMoreViewId = loadMoreViewId
+    fun setLoadMoreViewId(loadMoreViewId: Int, context: Context): LoadMoreWrapper {
+        this.loadMoreView = LayoutInflater.from(context).inflate(loadMoreViewId, null);
+        setLoadmoreViewVisiable(View.INVISIBLE)
         return this
     }
 
-    fun hasLoadmore(): Boolean = loadMoreView != null || loadMoreViewId != 0
+    fun hasLoadmore(): Boolean = loadMoreView != null
 
-    fun isShowLoadmore(position: Int): Boolean = hasLoadmore() && position >= innerAdapter.itemCount
+    // 是否执行加载更多
+    fun isShowLoadmore(position: Int): Boolean {
+        // 主要判断当前pos是否大于等于数据的大小
+        return hasLoadmore() && enableLoadmore && position >= innerAdapter.itemCount
+    }
+
 
     override fun getItemViewType(position: Int): Int {
         return if (isShowLoadmore(position)) ITEM_TYPE_LOAD_MORE else innerAdapter.getItemViewType(position)
@@ -51,16 +67,15 @@ class LoadMoreWrapper(val innerAdapter: RecyclerView.Adapter<ViewHolder>) : Recy
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        // 加载更多的布局
         if (viewType == ITEM_TYPE_LOAD_MORE) {
             var viewHolder: ViewHolder? = null
-
             if (loadMoreView != null) {
                 viewHolder = ViewHolder.createViewHolder(parent.context, loadMoreView!!)
-            } else if (loadMoreViewId != 0) {
-                viewHolder = ViewHolder.createViewHolder(parent.context, parent, loadMoreViewId)
             }
             return viewHolder!!
         }
+        // 其他
         return innerAdapter.onCreateViewHolder(parent, viewType)
     }
 
@@ -69,13 +84,15 @@ class LoadMoreWrapper(val innerAdapter: RecyclerView.Adapter<ViewHolder>) : Recy
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //回调加载更多
+        // 过滤当还没有数据的时候调用了加载更多
+        if (innerAdapter.itemCount == 0) return
+        // 回调加载更多
         if (isShowLoadmore(position)) {
-            loadMoreListener?.let {
-                it.invoke()
-            }
+            setLoadmoreViewVisiable(View.VISIBLE)
+            loadMoreListener?.invoke()
             return
         }
+
         return innerAdapter.onBindViewHolder(holder, position)
     }
 
@@ -104,5 +121,4 @@ class LoadMoreWrapper(val innerAdapter: RecyclerView.Adapter<ViewHolder>) : Recy
             lp.isFullSpan = true
         }
     }
-
 }

@@ -47,7 +47,7 @@ class CommonActivity : AppCompatActivity() {
         initHeaderAndFooter()
 
         loadMoreWrapper = LoadMoreWrapper(headerAndFooterWrapper)
-        loadMoreWrapper.setLoadMoreViewId(R.layout.default_loading)
+        loadMoreWrapper.setLoadMoreViewId(R.layout.default_loading, this)
         loadMoreWrapper.setOnLoadMoreListener {
             Handler().postDelayed({
                 for (i in 'A'..'Z') {
